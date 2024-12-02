@@ -24,10 +24,6 @@ const db = mysql.createPool({
     connectionLimit: 10,
     queueLimit: 0
   });
-//      DB_HOST: 'sql8.freesqldatabase.com', 
-//   DB_USERNAME: 'sql8748198', 
-//   DB_PASSWORD: 'dAuGMhsAYf',
-//   DB_DBNAME: 'sql8748198',
   
   module.exports = db;
   
