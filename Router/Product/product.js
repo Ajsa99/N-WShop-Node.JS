@@ -54,24 +54,39 @@ router.post('/AddProduct', upload.array('slike', 10), async (req, res) => {
 // Pregled svih proizvoda
 router.get('/products', (req, res) => {
     
-    const sqlGetProducts = `
-        SELECT p.idProizvod, p.naziv, p.cena, p.istaknut,
-            GROUP_CONCAT(s.naziv SEPARATOR ', ') AS slikeNaziv, 
-            GROUP_CONCAT(k.naziv SEPARATOR ', ') AS karakteristikaNaziv, 
-           GROUP_CONCAT(k.opis SEPARATOR ', ') AS karakteristikaOpis
-        FROM nwatch.Proizvod p
-        LEFT JOIN nwatch.Slike s ON p.idProizvod = s.idProizvod
-        LEFT JOIN nwatch.Karakteristike k ON p.idProizvod = k.idProizvod
-        GROUP BY p.idProizvod
-    `;
+  const sqlGetProducts = `
+  SELECT 
+      p.idProizvod, 
+      p.naziv, 
+      p.cena, 
+      p.istaknut,
+      GROUP_CONCAT(DISTINCT s.naziv SEPARATOR ', ') AS slikeNaziv, 
+      GROUP_CONCAT(DISTINCT k.naziv SEPARATOR ', ') AS karakteristikaNaziv, 
+      GROUP_CONCAT(DISTINCT k.opis SEPARATOR ', ') AS karakteristikaOpis
+  FROM 
+      Proizvod AS p
+  LEFT JOIN 
+      Slike AS s ON p.idProizvod = s.idProizvod
+  LEFT JOIN 
+      Karakteristike AS k ON p.idProizvod = k.idProizvod
+  GROUP BY 
+      p.idProizvod
+  ORDER BY 
+      p.naziv; 
+`;
+
 
 
     db.query(sqlGetProducts, (error, result) => {
-        if (error) {
-            return res.status(500).send({ error: "Error fetching products." });
-        }
-        res.send(result);
-    });
+      if (error) {
+          console.error("SQL Query Error:", error.code, error.sqlMessage, error.sql); // Detaljni log
+          return res.status(500).send({ error: "Error fetching products." });
+      }
+      console.log("SQL Result:", result);
+      res.send(result);
+  });
+  
+  
 });
 
 router.put('/UpdateProduct/:idProizvod', async (req, res) => {

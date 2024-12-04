@@ -10,11 +10,11 @@ const Port = 5000;
 
 const RegLog = require("./Router/RegLog/reg_log");
 const User = require("./Router/Users/User");
-const Product = require("./Router/Product/product");
+// const Product = require("./Router/Product/product");
 
 app.use("/", User);
 app.use("/", RegLog);
-app.use("/", Product);
+// app.use("/", Product);
 
 app.listen(process.env.PORT || Port, () => {
   console.log(`Service running on port ${Port}`);

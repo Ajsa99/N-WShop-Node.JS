@@ -26,42 +26,20 @@ router.get('/allusers', (req, res) => {
     });
 });
 
-// DELETE ruta za brisanje korisnika
-app.delete('/deleteuser/:id', (req, res) => {
-    const id = req.params.id;
-
-    // Provera validnosti ID-a
-    if (!id || isNaN(id)) {
-        return res.status(400).send({ error: "Neispravan ID korisnika." });
-    }
-
-    // SQL upit za proveru postojanja korisnika
-    const sqlCheck = "SELECT * FROM user WHERE iduser = ?";
-    db.query(sqlCheck, [id], (error, result) => {
+router.delete('/deleteuser/:id', (req, res) => {
+    const { id } = req.params;
+    
+    const sqlDelete = "DELETE FROM user WHERE iduser = ?";
+    db.query(sqlDelete, [id], (error, result) => {
         if (error) {
-            console.error("Greška pri proveri korisnika:", error.message);
-            return res.status(500).send({ error: "Greška na serveru." });
+            console.log(error);
+            return res.status(500).send({ error: "Greška pri brisanju korisnika." });
         }
-
-        if (result.length === 0) {
-            return res.status(404).send({ error: "Korisnik nije pronađen." });
+        if (result.affectedRows > 0) {
+            return res.send({ message: "Korisnik uspešno obrisan." });
+        } else {
+            return res.status(404).send({ message: "Korisnik nije pronađen." });
         }
-
-        // SQL upit za brisanje korisnika
-        const sqlDelete = "DELETE FROM user WHERE iduser = ?";
-        db.query(sqlDelete, [id], (deleteError, deleteResult) => {
-            if (deleteError) {
-                console.error("Greška pri brisanju korisnika:", deleteError.message);
-                return res.status(500).send({ error: "Greška na serveru prilikom brisanja korisnika." });
-            }
-
-            // Provera koliko je redova obrisano
-            if (deleteResult.affectedRows === 0) {
-                return res.status(404).send({ error: "Korisnik nije pronađen za brisanje." });
-            }
-
-            res.send({ message: "Korisnik je uspešno obrisan." });
-        });
     });
 });
 
