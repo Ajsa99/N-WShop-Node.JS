@@ -29,7 +29,7 @@ app.use(cors());
 const Port = 5000;
 
 const RegLog = require("./Router/RegLog/reg_log");
-const User = require("./Router/Users/User");
+const User = require("./Router/Users/user");
 const Product = require("./Router/Product/product");
 
 app.use("/", User);
