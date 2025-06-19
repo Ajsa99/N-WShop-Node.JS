@@ -27,15 +27,13 @@ require("dotenv").config();
 
   
 const db = mysql.createPool({
-  host: 'sql8.freesqldatabase.com', 
-  user: 'sql8748198', 
-  password: 'dAuGMhsAYf',
-  database: 'sql8748198',
+  host: 'sql7.freesqldatabase.com', 
+  user: 'sql7785299', 
+  password: 'cqqDtjdacS',
+  database: 'sql7785299',
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
 });
   
   module.exports = db;
-  
-

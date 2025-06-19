@@ -166,9 +166,9 @@ router.get('/product/:idProizvod', (req, res) => {
             GROUP_CONCAT(DISTINCT s.naziv SEPARATOR ', ') AS slikeNaziv, 
             GROUP_CONCAT(DISTINCT k.naziv SEPARATOR ', ') AS karakteristikaNaziv, 
             GROUP_CONCAT(DISTINCT k.opis SEPARATOR ', ') AS karakteristikaOpis
-        FROM nwatch.Proizvod p
-        LEFT JOIN nwatch.Slike s ON p.idProizvod = s.idProizvod
-        LEFT JOIN nwatch.Karakteristike k ON p.idProizvod = k.idProizvod
+        FROM sql7785299.Proizvod p
+        LEFT JOIN sql7785299.Slike s ON p.idProizvod = s.idProizvod
+        LEFT JOIN sql7785299.Karakteristike k ON p.idProizvod = k.idProizvod
         WHERE p.idProizvod = ?
         GROUP BY p.idProizvod
     `;
