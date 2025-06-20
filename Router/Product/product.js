@@ -22,7 +22,8 @@ router.post('/AddProduct', upload.array('slike', 10), async (req, res) => {
       const promises = req.files.map(file => {
         const formData = new FormData();
         formData.append('image', file.buffer.toString('base64')); // Pretvaranje u base64
-        return axios.post('https://api.imgbb.com/1/upload?key=2eb6cdef8717cde21ad05d076cfc4150', formData);
+        // return axios.post('https://api.imgbb.com/1/upload?key=2eb6cdef8717cde21ad05d076cfc4150', formData);
+        return axios.post('https://api.imgbb.com/1/upload?key=df729dc91ea82a04f5acb2988508e17a', formData);
       });
   
       const responses = await Promise.all(promises);
